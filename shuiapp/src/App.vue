@@ -9,5 +9,7 @@ export default {
 </script>
 
 <style>
-
+  .main{
+    padding: 20px;
+  }
 </style>

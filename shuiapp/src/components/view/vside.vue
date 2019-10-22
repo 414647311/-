@@ -1,7 +1,7 @@
 <template>
   <el-col class="side" :span="4">
     <el-menu
-      default-active="2"
+      
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
@@ -13,9 +13,9 @@
         </template>
         <el-menu-item-group>
           <template slot="title">权限</template>
-          <el-menu-item index="1-1">
-            <router-link to="/index/findManage">查看管理员</router-link>
-          </el-menu-item>
+          <router-link to="/index/findManage">
+            <el-menu-item index="1-1">查看管理员</el-menu-item>
+          </router-link>
         </el-menu-item-group>
       </el-submenu>
 
@@ -26,24 +26,24 @@
         </template>
         <el-menu-item-group>
           <template slot="title">权限</template>
-          <el-menu-item index="1-1">
-            <router-link to="/index/banner">banner</router-link>
-          </el-menu-item>
-          <el-menu-item index="1-2">
-            <router-link to="/index/teacher">家教管理</router-link>
-          </el-menu-item>
-          <el-menu-item index="1-3">
-            <router-link to="/index/banner">banner</router-link>
-          </el-menu-item>
-          <el-menu-item index="1-4">
-            <router-link to="/index/banner">banner</router-link>
-          </el-menu-item>
-          <el-menu-item index="1-5">
-            <router-link to="/index/banner">banner</router-link>
-          </el-menu-item>
-          <el-menu-item index="1-6">
-            <router-link to="/index/banner">banner</router-link>
-          </el-menu-item>
+          <router-link to="/index/banner">
+            <el-menu-item index="1-1">banner</el-menu-item>
+          </router-link>
+          <router-link to="/index/teacher">
+            <el-menu-item index="1-2">家教管理</el-menu-item>
+          </router-link>
+          <router-link to="/index/waterstation">
+            <el-menu-item index="1-3">水站管理</el-menu-item>
+          </router-link>
+          <router-link to="/index/repair">
+            <el-menu-item index="1-4">维修管理</el-menu-item>
+          </router-link>
+          <router-link to="/index/Housekeeping">
+            <el-menu-item index="1-5">家政管理</el-menu-item>
+          </router-link>
+          <router-link to="/index/userchange">
+            <el-menu-item index="1-6">修改密码</el-menu-item>
+          </router-link>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
@@ -57,16 +57,15 @@ export default {
       type: ""
     };
   },
-  mounted(){
-      this.type=this.$route.params.type==0?true:false;
-  }
-  ,
+  mounted() {
+    this.type = sessionStorage.getItem('type') == 0 ? true : false;
+  },
   methods: {
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+     
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+    
     }
   }
 };
@@ -76,7 +75,9 @@ export default {
   height: 889px;
   background: #409EFF;
 }
-
+.el-menu-item{
+  min-width 100 !important
+}
 .el-submenu__title i {
   color: #DFEFFF;
 }

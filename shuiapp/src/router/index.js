@@ -5,7 +5,13 @@ const index = () => import('../page/index.vue')
 const findManage = () => import('../page/findManage.vue')
 const banner = () => import('../page/banner.vue')
 const teacher = () => import('../page/teacher.vue')
+const waterstation = () => import('../page/waterstation.vue')
+const repair = () => import('../page/repair.vue')
+const Housekeeping = () => import('../page/Housekeeping.vue')
+const userchange = () => import('../page/userchange.vue')
 Vue.use(Router)
+
+
 
 export default new Router({
   routes: [
@@ -27,8 +33,27 @@ export default new Router({
         }, {
           path: 'teacher',
           component: teacher
+        }, {
+          path: 'waterstation',
+          component: waterstation
+        }
+        , {
+          path: 'repair',
+          component: repair
+        }
+        , {
+          path: 'Housekeeping',
+          component: Housekeeping
+        }
+        , {
+          path: 'userchange',
+          component: userchange
         }
       ]
     }
-  ]
+  ],
+  
+
 })
+
+

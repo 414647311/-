@@ -1,6 +1,6 @@
 <template>
   <el-col class="main" :span="20">
-    <h1>家庭管理</h1>
+    <h1>家教管理</h1>
 
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="家教banner" name="first"></el-tab-pane>
@@ -9,7 +9,7 @@
     </el-tabs>
 
     <el-button @click="add" plain>添加</el-button>
-    <el-table max-height="780" border stripe :data="tableData" style="width: 100%">
+    <el-table max-height="580" border stripe :data="tableData" style="width: 100%">
       <el-table-column label="序号" min-width="180">
         <template slot-scope="scope">
           <i class="el-icon-index"></i>
@@ -181,12 +181,11 @@ export default {
           break;
         default:
       }
-
+      this.tableData=[];
       this.$axios({
         url: this.url,
         method: "get"
       }).then(res => {
-        console.log(res.data.data);
         this.tableData = res.data.data;
       });
     },

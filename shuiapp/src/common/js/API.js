@@ -47,8 +47,9 @@ const updateHomeWorker =baseapi+'/updateHomeWorker'
 const getQualification =baseapi+'/getQualification'
 const getHomeType =baseapi+'/getHomeType'
 const exit =baseapi+'/exit'
-
+const changePassManage =baseapi+'/changePassManage'
 export default {
+    changePassManage,
     exit ,
     getHomeType ,
     getQualification ,

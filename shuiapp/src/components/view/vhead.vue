@@ -12,6 +12,9 @@
 <script>
 import API from "../../common/js/API";
 export default {
+  mounted(){
+    this.user.name= sessionStorage.getItem('name')
+  },
   data() {
     return {
       activeIndex2: "1",
@@ -24,6 +27,7 @@ export default {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },back(){
+      sessionStorage.clear()
       this.$router.replace('/')
     }
   }

@@ -2,7 +2,7 @@
   <el-col class="main" :span="20">
     <h1>banner管理</h1>
     <el-button @click="add" plain>添加</el-button>
-    <el-table max-height="780" border stripe :data="tableData" style="width: 100%">
+    <el-table max-height="580" border stripe :data="tableData" style="width: 100%">
       <el-table-column label="序号" min-width="180">
         <template slot-scope="scope">
           <i class="el-icon-index"></i>

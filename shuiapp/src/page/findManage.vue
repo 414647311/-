@@ -2,11 +2,11 @@
   <el-col class="main" :span="20">
     <h1>管理员管理</h1>
     <el-button @click="add" plain>添加</el-button>
-    <el-table max-height="780" border stripe :data="tableData" style="width: 100%">
+    <el-table max-height="580" border stripe :data="tableData" style="width: 100%">
       <el-table-column label="日期" min-width="180">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.time | formatDate(scope.row.time) }}</span>
+          <span style="margin-left: 10px">{{ scope.row.time | capitalize(scope.row.time) }}</span>
         </template>
       </el-table-column>
       <el-table-column label="姓名" min-width="180">
@@ -57,7 +57,7 @@
             v-model="form.time"
             type="datetime"
             placeholder="选择日期时间"
-            default-time="12:00:00"
+            
           ></el-date-picker>
         </el-form-item>
       </el-form>
@@ -79,18 +79,6 @@ export default {
       console.log(res);
       this.tableData = res.data.data;
     });
-  },
-  filters: {
-    formatDate: function(value) {
-      value = Number(value);
-      let date = new Date(value);
-      let y = date.getFullYear();
-      let MM = date.getMonth() + 1;
-      MM = MM < 10 ? "0" + MM : MM;
-      let d = date.getDate();
-      d = d < 10 ? "0" + d : d;
-      return y + "-" + MM + "-" + d + " ";
-    }
   },
   data() {
     return {
@@ -114,6 +102,8 @@ export default {
       this.inp = true;
     },
     update() {
+      var date = new Date(this.form.time)
+      this.form.time= date.getTime()
       this.dialogFormVisible = false;
       this.$axios({
         url: this.inp==false?API.updateManage:API.addManage,
@@ -173,7 +163,7 @@ export default {
 <style lang="stylus" scope>
 .main {
   background-color: #f3f3f3;
-  height: 889px;
+  height: 880px;
 
   h1 {
     margin: 10px;
