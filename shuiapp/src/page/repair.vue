@@ -187,14 +187,23 @@ export default {
       url: this.url,
       method: "get"
     }).then(res => {
-      console.log(res);
+
       this.arr = res.data.data;
       this.tableData = res.data.data;
     });
   },
   methods: {
+    init(){
+      this.$axios({
+      url: this.url,
+      method: "get"
+    }).then(res => {
+
+      this.tableData = res.data.data;
+    });
+    },
     handleEdit(index, row) {
-      console.log(row);
+
 
       this.dialogFormVisible = true;
       this.$axios({
@@ -220,12 +229,13 @@ export default {
         .then(res => {
           this.$message({
             message: res.data.info,
-            type: "success"
+            type: res.data.code=='0'?"success":"warning"
           });
         })
         .catch(err => {
           console.log(err);
         });
+        this.init()
     },
     handleClick(tab, event) {
       switch (tab.name) {
@@ -259,14 +269,7 @@ export default {
         default:
       }
       this.tableData = [];
-      this.$axios({
-        url: this.url,
-        method: "get"
-      }).then(res => {
-        console.log(res);
-
-        this.tableData = res.data.data;
-      });
+      this.init()
     },
     add() {
       this.onOff = false;
@@ -288,7 +291,7 @@ export default {
               this.tableData.splice(index, 1);
               this.$message({
                 message: res.data.info,
-                type: "success"
+                type: res.data.code=='0'?"success":"warning"
               });
             })
             .catch(err => {

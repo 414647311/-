@@ -125,15 +125,17 @@ export default {
   },
 
   mounted() {
-    this.$axios({
-      url: this.url,
-      method: "get"
-    }).then(res => {
-      console.log(res);
-      this.tableData = res.data.data;
-    });
+    this.init();
   },
   methods: {
+    init() {
+      this.$axios({
+        url: this.url,
+        method: "get"
+      }).then(res => {
+        this.tableData = res.data.data;
+      });
+    },
     set() {
       this.dialogFormVisible = false;
       this.$axios({
@@ -143,8 +145,9 @@ export default {
         .then(res => {
           this.$message({
             message: res.data.info,
-            type: "success"
+            type: res.data.code=='0'?"success":"warning"
           });
+          this.init();
         })
         .catch(err => {
           console.log(err);
@@ -163,8 +166,8 @@ export default {
           break;
         case "second":
           this.url = API.teacherType;
-          this.addurl=API.addTeacherType;
-          this.delurl=API.delTeacherType
+          this.addurl = API.addTeacherType;
+          this.delurl = API.delTeacherType;
           this.des = false;
           this.type = true;
           this.num = false;
@@ -173,7 +176,7 @@ export default {
         case "third":
           this.url = API.teacherTop;
           this.addurl = API.addTeacherTop;
-          this.delurl=API.delTeacherTop;
+          this.delurl = API.delTeacherTop;
           this.des = false;
           this.type = false;
           this.num = true;
@@ -181,7 +184,7 @@ export default {
           break;
         default:
       }
-      this.tableData=[];
+      this.tableData = [];
       this.$axios({
         url: this.url,
         method: "get"
@@ -208,7 +211,7 @@ export default {
               this.tableData.splice(index, 1);
               this.$message({
                 message: res.data.info,
-                type: "success"
+                type: res.data.code=='0'?"success":"warning"
               });
             })
             .catch(err => {

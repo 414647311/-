@@ -9,13 +9,7 @@
 
     <el-button v-if="show" @click="add" plain>添加</el-button>
     <el-select v-if="!show" v-model="id" placeholder="全部">
-        
-      <el-option
-        v-for="item in arr"
-        :key="item.id"
-        :label="item.name"
-        :value="item.id"
-      ></el-option>
+      <el-option v-for="item in arr" :key="item.id" :label="item.name" :value="item.id"></el-option>
     </el-select>
 
     <el-table max-height="580" border stripe :data="tableData" style="width: 100%">
@@ -139,22 +133,22 @@
 <script>
 import API from "../common/js/API";
 export default {
- watch:{
-     id(val){
-         this.$axios({
-             url:API.findComment,
-             params:{
-                 waterId:val
-             }
-         }).then(res=>{
-            this.tableData=res.data.data
-             
-         }).catch(err=>{
-             console.log(err);
-             
-         })
-     }
- },
+  watch: {
+    id(val) {
+      this.$axios({
+        url: API.findComment,
+        params: {
+          waterId: val
+        }
+      })
+        .then(res => {
+          this.tableData = res.data.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  },
   data() {
     return {
       tableData: [],
@@ -183,8 +177,8 @@ export default {
       onOff: false,
 
       show: true,
-      arr:[],
-      id:''
+      arr: [],
+      id: ""
     };
   },
   mounted() {
@@ -192,15 +186,22 @@ export default {
       url: this.url,
       method: "get"
     }).then(res => {
-      console.log(res);
-      this.arr=res.data.data
+      this.arr = res.data.data;
       this.tableData = res.data.data;
     });
-
   },
   methods: {
+    init() {
+       this.$axios({
+      url: this.url,
+      method: "get"
+    }).then(res => {
+      console.log(res);
+      this.tableData = res.data.data;
+    });
+    },
     handleEdit(index, row) {
-      console.log(row);
+
 
       this.dialogFormVisible = true;
       this.$axios({
@@ -224,8 +225,9 @@ export default {
         .then(res => {
           this.$message({
             message: res.data.info,
-            type: "success"
+            type:res.data.code=='0'?"success":"warning"
           });
+          this.init();
         })
         .catch(err => {
           console.log(err);
@@ -269,10 +271,9 @@ export default {
         url: this.url,
         method: "get"
       }).then(res => {
-        console.log(res);
-
         this.tableData = res.data.data;
       });
+      this.init();
     },
     add() {
       this.onOff = false;
@@ -294,7 +295,7 @@ export default {
               this.tableData.splice(index, 1);
               this.$message({
                 message: res.data.info,
-                type: "success"
+                type: res.data.code=='0'?"success":"warning"
               });
             })
             .catch(err => {

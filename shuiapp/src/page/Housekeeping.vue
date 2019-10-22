@@ -184,12 +184,11 @@
 <script>
 import API from "../common/js/API";
 export default {
-    filters: {
-  str: function (value) {
-    return value.replace(/["\[\]]/g,'')
-  }
-
-},
+  filters: {
+    str: function(value) {
+      return value.replace(/["\[\]]/g, "");
+    }
+  },
   watch: {
     id(val) {
       this.$axios({
@@ -204,8 +203,7 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
-    
+    }
   },
   data() {
     return {
@@ -247,7 +245,7 @@ export default {
 
       show: false,
       id: "",
-      arr:[]
+      arr: []
     };
   },
   mounted() {
@@ -255,22 +253,21 @@ export default {
       url: API.getHomeType,
       method: "get"
     }).then(res => {
-      console.log(res);
       this.arr = res.data.type;
     });
 
-    this.$axios({
-      url: API.homeBanner,
-      method: "get"
-    }).then(res => {
-      console.log(res);
-      this.tableData = res.data.data;
-    });
+    this.init();
   },
   methods: {
+    init() {
+      this.$axios({
+        url: this.url,
+        method: "get"
+      }).then(res => {
+        this.tableData = res.data.data;
+      });
+    },
     handleEdit(index, row) {
-      console.log(row);
-
       this.dialogFormVisible = true;
       this.$axios({
         url: API.findHomeWorker,
@@ -291,6 +288,7 @@ export default {
 
           this.form = res.data.data[0];
           this.onOff = true;
+          this.init();
         })
         .catch(err => {
           console.log(err);
@@ -306,8 +304,9 @@ export default {
           .then(res => {
             this.$message({
               message: res.data.info,
-              type: "success"
+              type:res.data.code=='0'?"success":"warning"
             });
+            this.init();
           })
           .catch(err => {
             console.log(err);
@@ -320,8 +319,9 @@ export default {
           .then(res => {
             this.$message({
               message: res.data.info,
-              type: "success"
+              type:res.data.code=='0'?"success":"warning"
             });
+            this.init();
           })
           .catch(err => {
             console.log(err);
@@ -360,14 +360,7 @@ export default {
         default:
       }
       this.tableData = [];
-      this.$axios({
-        url: this.url,
-        method: "get"
-      }).then(res => {
-        console.log(res);
-
-        this.tableData = res.data.data;
-      });
+      this.init();
     },
     add() {
       this.onOff = false;
@@ -403,7 +396,7 @@ export default {
               this.tableData.splice(index, 1);
               this.$message({
                 message: res.data.info,
-                type: "success"
+                type: res.data.code=='0'?"success":"warning"
               });
             })
             .catch(err => {

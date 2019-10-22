@@ -53,12 +53,7 @@
           <el-input v-model="form.des" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="时间" :label-width="formLabelWidth">
-          <el-date-picker
-            v-model="form.time"
-            type="datetime"
-            placeholder="选择日期时间"
-            
-          ></el-date-picker>
+          <el-date-picker v-model="form.time" type="datetime" placeholder="选择日期时间"></el-date-picker>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -72,13 +67,7 @@
 import API from "../common/js/API";
 export default {
   mounted() {
-    this.$axios({
-      url: API.findManage,
-      method: "post"
-    }).then(res => {
-      console.log(res);
-      this.tableData = res.data.data;
-    });
+   this.init()
   },
   data() {
     return {
@@ -87,42 +76,50 @@ export default {
       formLabelWidth: "120px",
       form: {
         name: "",
-        pass:'',
+        pass: "",
         time: "",
-        passtwo:'',
-        des:''
+        passtwo: "",
+        des: ""
       },
       inp: false
     };
   },
   methods: {
+    init() {
+      this.$axios({
+        url: API.findManage,
+        method: "post"
+      }).then(res => {
+        this.tableData = res.data.data;
+      });
+    },
     add() {
       this.form = {};
       this.dialogFormVisible = true;
       this.inp = true;
     },
     update() {
-      var date = new Date(this.form.time)
-      this.form.time= date.getTime()
+      var date = new Date(this.form.time);
+      this.form.time = date.getTime();
       this.dialogFormVisible = false;
       this.$axios({
-        url: this.inp==false?API.updateManage:API.addManage,
+        url: this.inp == false ? API.updateManage : API.addManage,
         method: "post",
         data: this.form
       })
         .then(res => {
           this.$message({
             message: res.data.info,
-            type: "success"
+            type: res.data.code=='0'?"success":"warning"
           });
+         this.init()
         })
         .catch(err => {
           console.log(err);
         });
+        
     },
     handleEdit(index, row) {
-      console.log(row);
-
       this.$axios({
         url: API.findManage,
         method: "post",
@@ -132,7 +129,6 @@ export default {
       });
       this.inp = false;
       this.dialogFormVisible = true;
-      console.log(index, row);
     },
     handleDelete(index, row) {
       this.$confirm("确认删除此管理员吗？")
@@ -148,7 +144,7 @@ export default {
               this.tableData.splice(index, 1);
               this.$message({
                 message: res.data.info,
-                type: "success"
+                type: res.data.code=='0'?"success":"warning"
               });
             })
             .catch(err => {

@@ -70,16 +70,17 @@ export default {
     }
   },
   mounted() {
-    this.$axios({
+   this.init()
+  },
+  methods: {
+    init(){
+      this.$axios({
       url: API.banner,
       method: "get"
     }).then(res => {
-      console.log(res);
       this.tableData = res.data.data;
     });
-  },
-  methods: {
-    
+    },
     add() {
       this.form = {};
       this.dialogFormVisible = true;
@@ -92,12 +93,11 @@ export default {
         params: this.form
       })
         .then(res => {
-            console.log(res);
-            
           this.$message({
             message: res.data.info,
             type: "success"
           });
+          this.init()
         })
         .catch(err => {
           console.log(err);
